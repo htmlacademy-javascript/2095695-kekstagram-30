@@ -3,9 +3,6 @@ function checkStringLength(inputString, maxLength) {
   return inputString.length <= maxLength;
 }
 checkStringLength('проверяемая строка', 20);
-checkStringLength('проверяемая строка', 18);
-checkStringLength('проверяемая строка', 10);
-
 
 // Функция для проверки, является ли строка палиндромом.
 function checkStringPalindrome(inputString) {
@@ -17,8 +14,18 @@ function checkStringPalindrome(inputString) {
   return normalizedString === reversedString;
 }
 
-checkStringPalindrome('топот');
-checkStringPalindrome('ДовОд');
-checkStringPalindrome('Кекс');
 checkStringPalindrome('Лёша на полке клопа нашёл');
 
+// Функция принимает строку, извлекает содержащиеся в ней цифры от 0 до 9 и возвращает их в виде целого положительного числа.
+function extractDigitsAndParseToInt(inputString) {
+  const digitMatches = inputString.match(/\d/g);
+  if (digitMatches) {
+    const digitsString = digitMatches.join('');
+    const parsedNumber = parseInt(digitsString, 10);
+    return isNaN(parsedNumber) ? NaN : parsedNumber;
+  } else {
+    return NaN;
+  }
+}
+
+extractDigitsAndParseToInt('2023 год');
