@@ -1,3 +1,4 @@
+import { getPictures } from './data.js';
 // массив строк, содержащий различные комментарии,
 // которые могут быть случайно выбраны и использованы при создании комментариев к фотографиям.
 const commentLines = [
@@ -84,6 +85,5 @@ const getPictures = () =>
   Array.from({ length: 25 }, (_, pictureIndex) =>
     createPicture(pictureIndex + 1)
   );
-
-checkStringLength('', 140);
-getPictures();
+const pictures = getPictures();
+console.log(pictures);
