@@ -1,3 +1,6 @@
-/* eslint-disable no-console */
-import { getPictures } from './data.js';
-getPictures();
+import { getPictures } from './get-pictures.js';
+import { renderPhotos } from './mini-pictures.js';
+const amountOfDescription = 25;
+renderPhotos (getPictures());
+
+export { amountOfDescription };
