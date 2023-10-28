@@ -1,5 +1,3 @@
-import { generateCommentId, generatePictureId, getRandomPositiveInteger, getRandomArrayElement} from './util.js';
-
 const avatarCount = 6;
 const minLikes = 15;
 const maxLikes = 200;
@@ -44,41 +42,17 @@ const names = [
   'Павел',
   'Антон',
 ];
-export function createIdGenerator() {
-  let lastGeneratedId = 0;
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-}
 
-export function createMessage() {
-  const lines = Array.from({ length: getRandomPositiveInteger(minCommentLines, maxCommentLines) }, () => getRandomArrayElement(commentLines));
-  return lines.join(' ');
-}
-
-export function createComment() {
-  return {
-    id: generateCommentId(),
-    avatar: `img/avatar-${getRandomPositiveInteger(1, avatarCount)}.svg`,
-    message: createMessage(),
-    name: getRandomArrayElement(names),
-  };
-}
-
-export function createPicture() {
-  const pictureId = generatePictureId();
-  return {
-    id: pictureId,
-    url: `photos/${pictureId}.jpg`,
-    description: getRandomArrayElement(descriptions),
-    likes: getRandomPositiveInteger(minLikes, maxLikes),
-    comments: Array.from({ length: getRandomPositiveInteger(minComments, maxComments) }, () => createComment()),
-  };
-}
-
-export function getPictures() {
-  return Array.from({ length: amountOfDescription }, () => createPicture(generatePictureId));
-}
-
-
+export {
+  avatarCount,
+  minLikes,
+  maxLikes,
+  minComments,
+  maxComments,
+  maxCommentLines,
+  minCommentLines,
+  amountOfDescription,
+  commentLines,
+  descriptions,
+  names,
+};
