@@ -3,7 +3,6 @@ import {
   minComments, maxComments, minCommentLines, maxCommentLines,
 } from './data.js';
 import { createIdGenerator, getRandomPositiveInteger, getRandomArrayElement } from './util.js';
-import { amountOfDescription } from './main.js';
 
 function createMessage() {
   const lines = Array.from({ length: getRandomPositiveInteger(minCommentLines, maxCommentLines) },
@@ -32,9 +31,9 @@ function createPicture(generatePictureId) {
   };
 }
 
-function getPictures() {
+function getPictures(count) {
   const generatePictureId = createIdGenerator();
-  return Array.from({ length: amountOfDescription }, () => createPicture(generatePictureId));
+  return Array.from({ length: count}, () => createPicture(generatePictureId));
 }
 
 export { getPictures };
