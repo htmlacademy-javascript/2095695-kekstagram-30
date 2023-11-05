@@ -1,13 +1,13 @@
-const avatarCount = 6;
-const minLikes = 15;
-const maxLikes = 200;
-const minComments = 0;
-const maxComments = 6;
-const maxCommentLines = 2;
-const minCommentLines = 1;
-const amountOfDescription = 25;
+const AVATAR_COUNT = 6;
+const MIN_LIKES = 15;
+const MAX_LIKES = 200;
+const MIN_COMMENTS = 0;
+const MAX_COMMENTS = 6;
+const MAX_COMMENT_LINES = 2;
+const MIN_COMMENT_LINES = 1;
+const AMOUNT_OF_DESCRIPTION = 25;
 
-const commentLines = [
+const COMMENT_LINES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце-концов это просто непрофессионально.',
@@ -16,7 +16,7 @@ const commentLines = [
   'Лица у людей на фотке перекошены, как-будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const descriptions = [
+const DESCRIPTIONS = [
   'Утренний кофе в любимой кофейне. #кофе #утро #кофейня #вкусно #пробуждение',
   'Прогулка в парке под лучами солнца. #прогулка #парк #солнце #природа #весна',
   'Закат над океаном. #закат #океан #пейзаж #красота #путешествие',
@@ -30,7 +30,7 @@ const descriptions = [
   'Вдохновляющее занятие искусством. #творчество #искусство #художество #вдохновение',
 ];
 
-const names = [
+const NAMES = [
   'Александр',
   'Дмитрий',
   'Анна',
@@ -44,15 +44,15 @@ const names = [
 ];
 
 export {
-  avatarCount,
-  minLikes,
-  maxLikes,
-  minComments,
-  maxComments,
-  maxCommentLines,
-  minCommentLines,
-  amountOfDescription,
-  commentLines,
-  descriptions,
-  names,
+  AVATAR_COUNT,
+  MIN_LIKES,
+  MAX_LIKES,
+  MIN_COMMENTS,
+  MAX_COMMENTS,
+  MAX_COMMENT_LINES,
+  MIN_COMMENT_LINES,
+  AMOUNT_OF_DESCRIPTION,
+  COMMENT_LINES,
+  DESCRIPTIONS,
+  NAMES,
 };

@@ -1,5 +1,4 @@
 import { getPictures } from './get-pictures.js';
-import { renderPhotos } from './mini-pictures.js';
-const amountOfDescription = 25;
-renderPhotos (getPictures(amountOfDescription));
-
+import { renderGallery } from './gallery.js';
+const AMOUNT_OF_DESCRIPTION = 25;
+renderGallery(getPictures(AMOUNT_OF_DESCRIPTION));
