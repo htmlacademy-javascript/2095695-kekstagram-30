@@ -36,4 +36,4 @@ function onImgEscKeydown(evt) {
 imgUploadInput.addEventListener('change', onShowFormButtonClick);
 imgUploadCancelButton.addEventListener('click', onCloseFormButtonClick);
 
-export { showEditingForm, closeEditingForm, onImgEscKeydown };
+
