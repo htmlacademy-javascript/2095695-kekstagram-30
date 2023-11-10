@@ -1,3 +1,7 @@
+import { resetScale } from './scale.js';
+import { resetEffects } from './effects.js';
+import {updateSlider } from './effects.js';
+
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
@@ -8,8 +12,6 @@ const commentField = document.querySelector('.text__description');
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
-const MIN_HASHTAG_LENGTH = 2;
-const MAX_HASHTAG_LENGTH = 20;
 const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1, 19}$/i;
 
 const pristine = new Pristine(form, {
@@ -27,6 +29,9 @@ const showModal = () => {
 const hideModal = () => {
   form.reset();
   pristine.reset();
+  updateSlider.classList.add('hidden');
+  resetScale();
+  resetEffects();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyDown);
@@ -61,15 +66,8 @@ const onFileInputChange = () => {
   showModal();
 };
 
-const startsWithHash = (string) => string[0] === '#';
+const isValidTag = (tag) => HASHTAG_SYMBOLS.test(tag);
 
-const hasValidLength = (string) =>
-  string.length >= MIN_HASHTAG_LENGTH && string.length <= MAX_HASHTAG_LENGTH;
-
-const hasValidSymbols = (string) => !HASHTAG_SYMBOLS.test(string.slice(1));
-
-const isValidTag = (tag) =>
-  startsWithHash(tag) && hasValidLength(tag) && hasValidSymbols(tag);
 pristine.addValidator(
   hashtagField,
   isValidTag,
@@ -78,12 +76,14 @@ pristine.addValidator(
   true
 );
 
-
-const hasValidCount = (tags) => tags.length <= MAX_HASHTAG_COUNT;
+const hasValidCount = (tagsString) => {
+  const tagsArray = tagsString.split(' ');
+  return tagsArray.length <= MAX_HASHTAG_COUNT;
+};
 
 pristine.addValidator(
-  hasValidCount,
   hashtagField,
+  hasValidCount,
   'Превышено количество хэш-тегов',
   2,
   true
@@ -91,7 +91,7 @@ pristine.addValidator(
 
 const checkUniqueHashtags = (value) => {
   const hashtags = value
-    .split(' ') .filter((tag) => tag.trim().length);
+    .split(' ').filter((tag) => tag.trim().length);
 
   const lowerCaseHashtags = hashtags.map((hashtag) => hashtag.toLowerCase());
   return lowerCaseHashtags.length === new Set(lowerCaseHashtags).size;
@@ -115,4 +115,4 @@ fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
 form.addEventListener('submit', onFormSubmit);
 
-
+export { isTextFieldFocused };
