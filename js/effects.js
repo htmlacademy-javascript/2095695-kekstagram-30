@@ -111,37 +111,5 @@ updateSlider();
 
 form.addEventListener('change', onFormChange);
 sliderElement.noUiSlider.on('update', onSliderUpdate);
-
 export { resetEffects };
 export { updateSlider };
-
-// const normalizeHashtags = (str) => str.trim().split(' ').filter((hashtag) => Boolean(hashtag.length));
-// const checkValidateHashtag = (value) => normalizeHashtags(value).every((hashtag) => REXEXP_HASHTAG.test(hashtag));
-// const checkHashtagListLength = (value) => normalizeHashtags(value).length <= NUMBER_OF_HASHTAGS;
-// const checkUniqueHashtags = (value) => {
-//   const loserCaseHashtags = normalizeHashtags(value).map((hashtag) => hashtag.toLowerCase());
-//   return loserCaseHashtags.length === new Set(loserCaseHashtags).size;
-// };
-// //введён невалидный хэш-тег
-// pristine.addValidator(
-//   textHashtags,
-//   checkValidateHashtag,
-//   'Введён невалидный хэш-тег',
-//   1,
-//   true
-// );
-// //превышено количество хэш-тегов
-// pristine.addValidator(
-//   textHashtags,
-//   checkHashtagListLength,
-//   'Превышено количество хэш-тегов',
-//   2,
-//   true
-// );
-// //хэш-теги повторяются
-// pristine.addValidator(
-//   textHashtags,
-//   checkUniqueHashtags,
-//   'Хэш-теги повторяются',
-//   3,
-//   true

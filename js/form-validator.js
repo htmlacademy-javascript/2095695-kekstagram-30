@@ -29,7 +29,7 @@ const showModal = () => {
 const hideModal = () => {
   form.reset();
   pristine.reset();
-  updateSlider.classList.add('hidden');
+  updateSlider();
   resetScale();
   resetEffects();
   overlay.classList.add('hidden');
@@ -66,37 +66,42 @@ const onFileInputChange = () => {
   showModal();
 };
 
-const isValidTag = (tag) => HASHTAG_SYMBOLS.test(tag);
+
+const normalizeHashtags = (str) => {
+  const hashtags = str.trim().split(' ').filter((hashtag) => hashtag.length > 0);
+  return hashtags;
+};
+
+const checkValidateHashtag = (value) => {
+  const hashtags = normalizeHashtags(value);
+  return hashtags.every((hashtag) => HASHTAG_SYMBOLS.test(hashtag));
+};
+
+const checkHashtagListLength = (value) => {
+  const hashtags = normalizeHashtags(value);
+  return hashtags.length <= MAX_HASHTAG_COUNT;
+};
+
+const checkUniqueHashtags = (value) => {
+  const hashtags = normalizeHashtags(value).map((hashtag) => hashtag.toLowerCase());
+  return hashtags.length === new Set(hashtags).size;
+};
 
 pristine.addValidator(
   hashtagField,
-  isValidTag,
+  checkValidateHashtag,
   'Введён невалидный хэш-тег',
   1,
   true
 );
 
-const hasValidCount = (tagsString) => {
-  const tagsArray = tagsString.split(' ');
-  return tagsArray.length <= MAX_HASHTAG_COUNT;
-};
-
 pristine.addValidator(
   hashtagField,
-  hasValidCount,
+  checkHashtagListLength,
   'Превышено количество хэш-тегов',
   2,
   true
 );
-
-const checkUniqueHashtags = (value) => {
-  const hashtags = value
-    .split(' ').filter((tag) => tag.trim().length);
-
-  const lowerCaseHashtags = hashtags.map((hashtag) => hashtag.toLowerCase());
-  return lowerCaseHashtags.length === new Set(lowerCaseHashtags).size;
-};
-
 
 pristine.addValidator(
   hashtagField,
@@ -116,3 +121,4 @@ cancelButton.addEventListener('click', onCancelButtonClick);
 form.addEventListener('submit', onFormSubmit);
 
 export { isTextFieldFocused };
+
