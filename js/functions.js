@@ -43,4 +43,3 @@ function convertToMinutes(time) {
 }
 
 checkMeetingTime('8:0', '10:0', '8:0', 120);
-

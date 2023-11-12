@@ -1,3 +1,7 @@
+import { resetScale } from './scale.js';
+import { resetEffects } from './effects.js';
+import {updateSlider } from './effects.js';
+
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
@@ -8,8 +12,6 @@ const commentField = document.querySelector('.text__description');
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
-const MIN_HASHTAG_LENGTH = 2;
-const MAX_HASHTAG_LENGTH = 20;
 const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1, 19}$/i;
 
 const pristine = new Pristine(form, {
@@ -27,6 +29,9 @@ const showModal = () => {
 const hideModal = () => {
   form.reset();
   pristine.reset();
+  updateSlider();
+  resetScale();
+  resetEffects();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyDown);
@@ -61,42 +66,42 @@ const onFileInputChange = () => {
   showModal();
 };
 
-const startsWithHash = (string) => string[0] === '#';
 
-const hasValidLength = (string) =>
-  string.length >= MIN_HASHTAG_LENGTH && string.length <= MAX_HASHTAG_LENGTH;
+const normalizeHashtags = (str) => {
+  const hashtags = str.trim().split(' ').filter((hashtag) => hashtag.length > 0);
+  return hashtags;
+};
 
-const hasValidSymbols = (string) => !HASHTAG_SYMBOLS.test(string.slice(1));
+const checkValidateHashtag = (value) => {
+  const hashtags = normalizeHashtags(value);
+  return hashtags.every((hashtag) => HASHTAG_SYMBOLS.test(hashtag));
+};
 
-const isValidTag = (tag) =>
-  startsWithHash(tag) && hasValidLength(tag) && hasValidSymbols(tag);
+const checkHashtagListLength = (value) => {
+  const hashtags = normalizeHashtags(value);
+  return hashtags.length <= MAX_HASHTAG_COUNT;
+};
+
+const checkUniqueHashtags = (value) => {
+  const hashtags = normalizeHashtags(value).map((hashtag) => hashtag.toLowerCase());
+  return hashtags.length === new Set(hashtags).size;
+};
+
 pristine.addValidator(
   hashtagField,
-  isValidTag,
+  checkValidateHashtag,
   'Введён невалидный хэш-тег',
   1,
   true
 );
 
-
-const hasValidCount = (tags) => tags.length <= MAX_HASHTAG_COUNT;
-
 pristine.addValidator(
-  hasValidCount,
   hashtagField,
+  checkHashtagListLength,
   'Превышено количество хэш-тегов',
   2,
   true
 );
-
-const checkUniqueHashtags = (value) => {
-  const hashtags = value
-    .split(' ') .filter((tag) => tag.trim().length);
-
-  const lowerCaseHashtags = hashtags.map((hashtag) => hashtag.toLowerCase());
-  return lowerCaseHashtags.length === new Set(lowerCaseHashtags).size;
-};
-
 
 pristine.addValidator(
   hashtagField,
@@ -115,4 +120,5 @@ fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
 form.addEventListener('submit', onFormSubmit);
 
+export { isTextFieldFocused };
 
