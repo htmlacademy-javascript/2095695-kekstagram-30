@@ -1,6 +1,8 @@
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
-import {updateSlider } from './effects.js';
+import { updateSlider } from './effects.js';
+import { sendPicture } from './api.js';
+import { showSuccesMessage } from './message.js';
 
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
@@ -9,10 +11,21 @@ const cancelButton = document.querySelector('#upload-cancel');
 const fileField = document.querySelector('#upload-file');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
+
+const SubmitButtonCaption = {
+  SUBMITTING: 'Отправляю...',
+  IDLE: 'Опубликовать'
+};
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1, 19}$/i;
+
+function toggleSubmitButton(isDisabled) {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = isDisabled ? SubmitButtonCaption.SUBMITTING : SubmitButtonCaption.IDLE;
+}
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -51,8 +64,12 @@ const isTextFieldFocused = () =>
   document.activeElement === hashtagField ||
   document.activeElement === commentField;
 
+function isErrorMessageExists() {
+  return Boolean(document.querySelector('.error'));
+}
+
 function onEscKeyDown(evt) {
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {
+  if (evt.key === 'Escape' && !isTextFieldFocused() && !isErrorMessageExists()) {
     evt.preventDefault();
     hideModal();
   }
@@ -111,9 +128,26 @@ pristine.addValidator(
   true
 );
 
-const onFormSubmit = (evt) => {
+async function sendForm(formElement) {
+  if (!pristine.validate()) {
+    return;
+  }
+  try {
+    toggleSubmitButton(true);
+    await sendPicture(new FormData(formElement));
+    toggleSubmitButton(false);
+    hideModal();
+    showSuccesMessage();
+  } catch {
+    showSuccesMessage();
+    toggleSubmitButton(false);
+
+  }
+}
+
+const onFormSubmit = async (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  sendForm(evt.target);
 };
 
 fileField.addEventListener('change', onFileInputChange);
