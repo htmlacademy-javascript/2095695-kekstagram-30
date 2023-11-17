@@ -1,6 +1,17 @@
-import { getPictures } from './get-pictures.js';
 import { renderGallery } from './gallery.js';
-const AMOUNT_OF_DESCRIPTION = 25;
-renderGallery(getPictures(AMOUNT_OF_DESCRIPTION));
+import { loadPicure } from './api.js';
 import './img-upload-form.js';
 import './form-validator.js';
+import { showErrorMessage } from './util.js';
+
+async function bootstrap() {
+  try {
+    const pictures = await loadPicure();
+    renderGallery(pictures);
+  } catch (error) {
+    showErrorMessage();
+  }
+}
+
+bootstrap();
+showErrorMessage();
