@@ -157,7 +157,6 @@ const sendForm = async (formElement) => {
   }
 };
 
-
 const onFormSubmit = async (evt) => {
   evt.preventDefault();
   sendForm(evt.target);

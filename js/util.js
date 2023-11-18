@@ -17,5 +17,4 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-
 export {showErrorMessage, debounce};
