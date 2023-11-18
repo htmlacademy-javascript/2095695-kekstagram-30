@@ -1,6 +1,5 @@
 import { resetScale } from './scale.js';
-import { resetEffects } from './effects.js';
-import { updateSlider } from './effects.js';
+import { resetEffects, updateSlider } from './effects.js';
 import { sendPicture } from './api.js';
 import { showSuccesMessage } from './message.js';
 
@@ -12,7 +11,8 @@ const fileField = document.querySelector('#upload-file');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
-
+const photoPreview = document.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 const SubmitButtonCaption = {
   SUBMITTING: 'Отправляю...',
   IDLE: 'Опубликовать'
@@ -21,6 +21,7 @@ const SubmitButtonCaption = {
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1, 19}$/i;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 function toggleSubmitButton(isDisabled) {
   submitButton.disabled = isDisabled;
@@ -75,14 +76,26 @@ function onEscKeyDown(evt) {
   }
 }
 
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
+};
+
 const onCancelButtonClick = () => {
   hideModal();
 };
 
 const onFileInputChange = () => {
+  const file = fileField.files[0];
+
+  if (file && isValidType(file)) {
+    photoPreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url('${photoPreview.src}')`;
+    });
+  }
   showModal();
 };
-
 
 const normalizeHashtags = (str) => {
   const hashtags = str.trim().split(' ').filter((hashtag) => hashtag.length > 0);
@@ -128,7 +141,7 @@ pristine.addValidator(
   true
 );
 
-async function sendForm(formElement) {
+const sendForm = async (formElement) => {
   if (!pristine.validate()) {
     return;
   }
@@ -141,9 +154,9 @@ async function sendForm(formElement) {
   } catch {
     showSuccesMessage();
     toggleSubmitButton(false);
-
   }
-}
+};
+
 
 const onFormSubmit = async (evt) => {
   evt.preventDefault();
