@@ -1,7 +1,7 @@
 import { resetScale } from './scale.js';
 import { resetEffects, updateSlider } from './effects.js';
 import { sendPicture } from './api.js';
-import { showSuccesMessage } from './message.js';
+import { showSuccesMessage, showErrorMessage } from './message.js';
 
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
@@ -50,6 +50,7 @@ const hideModal = () => {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyDown);
 };
+
 
 const hasValidCommentLength = () => {
   const comment = commentField.value.trim();
@@ -149,10 +150,9 @@ const sendForm = async (formElement) => {
     toggleSubmitButton(true);
     await sendPicture(new FormData(formElement));
     toggleSubmitButton(false);
-    hideModal();
     showSuccesMessage();
-  } catch {
-    showSuccesMessage();
+  } catch (error) {
+    showErrorMessage();
     toggleSubmitButton(false);
   }
 };

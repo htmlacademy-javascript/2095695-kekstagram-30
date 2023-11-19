@@ -44,9 +44,11 @@ const repaint = (event, filter, data) => {
     const pictures = document.querySelectorAll('.picture');
     pictures.forEach((item) => item.remove());
     renderGallery(filterData);
-    const currentActiveEl = filterForm.querySelector('.img-filters__button--active');
-    currentActiveEl.classList.remove('img-filters__button--active');
-    event.target.classList.add('img-filters__button--active');
+
+    const activeButtonClass = 'img-filters__button--active';
+    filterForm.querySelector(`.${activeButtonClass}`).classList.remove(activeButtonClass);
+    event.target.classList.add(activeButtonClass);
+
     currentFilter = filter;
   }
 };

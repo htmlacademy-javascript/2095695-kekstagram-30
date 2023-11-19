@@ -97,7 +97,7 @@ const onSliderUpdate = () => {
   const sliderValue = sliderElement.noUiSlider.get();
   image.style.filter = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
   image.classList.add(`effects__preview--${chosenEffect.name}`);
-  effectLevel.value = sliderValue;
+  effectLevel.value = parseFloat(sliderValue).toString();
 };
 
 const resetEffects = () => {
