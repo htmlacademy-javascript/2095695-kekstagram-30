@@ -151,9 +151,12 @@ const sendForm = async (formElement) => {
     await sendPicture(new FormData(formElement));
     toggleSubmitButton(false);
     showSuccesMessage();
+    form.reset();
+    hideModal();
   } catch (error) {
     showErrorMessage();
     toggleSubmitButton(false);
+
   }
 };
 
@@ -161,6 +164,7 @@ const onFormSubmit = async (evt) => {
   evt.preventDefault();
   sendForm(evt.target);
 };
+
 
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
