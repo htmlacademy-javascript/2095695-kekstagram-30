@@ -1,7 +1,7 @@
 import { resetScale } from './scale.js';
 import { resetEffects, updateSlider } from './effects.js';
 import { sendPicture } from './api.js';
-import { showSuccesMessage } from './message.js';
+import { showSuccesMessage, showErrorMessage } from './message.js';
 
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
@@ -20,7 +20,7 @@ const SubmitButtonCaption = {
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
-const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1, 19}$/i;
+const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 function toggleSubmitButton(isDisabled) {
@@ -50,6 +50,7 @@ const hideModal = () => {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyDown);
 };
+
 
 const hasValidCommentLength = () => {
   const comment = commentField.value.trim();
@@ -149,11 +150,13 @@ const sendForm = async (formElement) => {
     toggleSubmitButton(true);
     await sendPicture(new FormData(formElement));
     toggleSubmitButton(false);
+    showSuccesMessage();
+    form.reset();
     hideModal();
-    showSuccesMessage();
-  } catch {
-    showSuccesMessage();
+  } catch (error) {
+    showErrorMessage();
     toggleSubmitButton(false);
+
   }
 };
 
@@ -161,6 +164,7 @@ const onFormSubmit = async (evt) => {
   evt.preventDefault();
   sendForm(evt.target);
 };
+
 
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
