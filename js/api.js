@@ -15,26 +15,22 @@ const ErrorText = {
   [HttpMethod.POST]: 'Не удалось отправить данные формы',
 };
 
-async function request(url, method = HttpMethod.GET, body = null) {
+const request = async function(url, method = HttpMethod.GET, body = null) {
   const response = await fetch(url, { method, body });
   if (!response.ok) {
     throw new Error(ErrorText[method]);
   }
   return response.json();
+};
 
-}
+const loadPicture = async () => request(SERVER_URL + ServerRoute.GET_DATA);
 
-async function loadPicure() {
-  return request(SERVER_URL + ServerRoute.GET_DATA);
-}
-
-async function sendPicture(pictureData) {
-  return request(
+const sendPicture = async (pictureData) =>
+  request(
     SERVER_URL + ServerRoute.SEND_DATA,
     HttpMethod.POST,
     pictureData,
   );
 
-}
 
-export { loadPicure, sendPicture };
+export { loadPicture, sendPicture };

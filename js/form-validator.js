@@ -20,7 +20,7 @@ const SubmitButtonCaption = {
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
-const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1, 19}$/i;
+const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 function toggleSubmitButton(isDisabled) {
