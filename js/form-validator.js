@@ -3,6 +3,11 @@ import { resetEffects, updateSlider } from './effects.js';
 import { sendPicture } from './api.js';
 import { showSuccesMessage, showErrorMessage } from './message.js';
 
+const MAX_COMMENT_LENGTH = 140;
+const MAX_HASHTAG_COUNT = 5;
+const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
@@ -17,11 +22,6 @@ const SubmitButtonCaption = {
   SUBMITTING: 'Отправляю...',
   IDLE: 'Опубликовать'
 };
-
-const MAX_COMMENT_LENGTH = 140;
-const MAX_HASHTAG_COUNT = 5;
-const HASHTAG_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 function toggleSubmitButton(isDisabled) {
   submitButton.disabled = isDisabled;
