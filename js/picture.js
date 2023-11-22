@@ -2,15 +2,11 @@ const COMMENTS_COUNT_SHOW = 5;
 
 const bigPictureElement = document.querySelector('.big-picture');
 const bodyElement = document.querySelector('body');
-
 const closePictureButtonElement = bigPictureElement.querySelector('.big-picture__cancel');
-
 const commentsListElement = bigPictureElement.querySelector('.social__comments');
 const commentCountElement = document.querySelector('.social__comment-shown-count');
-
 const totalCommentCountElement = bigPictureElement.querySelector('.social__comment-total-count');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
-
 const commentElement = document.querySelector('#comment').content.querySelector('.social__comment');
 
 let commentsCountShow = 0;
